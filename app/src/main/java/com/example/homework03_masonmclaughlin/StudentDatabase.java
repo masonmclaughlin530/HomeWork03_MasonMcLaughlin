@@ -1,9 +1,12 @@
 package com.example.homework03_masonmclaughlin;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
 
 public class StudentDatabase extends SQLiteOpenHelper
 {
@@ -18,7 +21,8 @@ public class StudentDatabase extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase db)
     {
         db.execSQL(" CREATE TABLE " + students_table_name + " (username varchar(50) primary key, fname varchar(50), lname varchar (50), email varchar(50), age integer, gpa float, major varchar(50))");
-        db.execSQL(" CREATE TABLE " + major_table_name + " (majorId integer primary key autoincrement not null, majorPrefix varchar(10), foreign key (major) references " + students_table_name + "(major))");
+        db.execSQL(" CREATE TABLE " + major_table_name + " (majorId integer primary key autoincrement not null, majorPrefix varchar(10), major varChar(50) ,foreign key (major) references " + students_table_name + "(major))");
+
     }
 
     @Override
@@ -28,6 +32,12 @@ public class StudentDatabase extends SQLiteOpenHelper
         db.execSQL(" DROP TABLE IF EXISTS " + major_table_name + ";");
 
         onCreate(db);
+    }
+
+    public void initAllTables()
+    {
+        initStudents();
+        initMajors();
     }
 
     public String getStudentsDbName()
@@ -42,6 +52,7 @@ public class StudentDatabase extends SQLiteOpenHelper
 
     private void initStudents()
     {
+        //create dummy data in database
         if(countDb(students_table_name) == 0)
         {
             SQLiteDatabase db = this.getReadableDatabase();
@@ -64,6 +75,25 @@ public class StudentDatabase extends SQLiteOpenHelper
             db.execSQL(" INSERT INTO " + students_table_name + " (username,fname,lname,email, age, gpa, major) VALUES ('JHet', 'James', 'Hetfield', 'Hetfield1981@gmail.com', 21, 3.4, 'Business' )");
             db.execSQL(" INSERT INTO " + students_table_name + " (username,fname,lname,email, age, gpa, major) VALUES ('Dali04', 'Salvador', 'Dali', 'SalDal@gmail.com', 21, 3.9, 'Art' )");
             db.execSQL(" INSERT INTO " + students_table_name + " (username,fname,lname,email, age, gpa, major) VALUES ('Julian09', 'Juilan', 'Assange', 'JulianAssange@wikileaks.com', 19, 3.1, 'Computer Science' )");
+
+        db.close();
+        }
+    }
+
+    private void initMajors()
+    {
+        if(countDb(major_table_name) == 0)
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            db.execSQL(" INSERT INTO " + major_table_name + " (majorPrefix, major) VALUES ('comp', 'Computer Science');");
+            db.execSQL(" INSERT INTO " + major_table_name + " (majorPrefix, major) VALUES ('Polt', 'Political Science');");
+            db.execSQL(" INSERT INTO " + major_table_name + " (majorPrefix, major) VALUES ('Bus', 'Business');");
+            db.execSQL(" INSERT INTO " + major_table_name + " (majorPrefix, major) VALUES ('Art', 'Art');");
+            db.execSQL(" INSERT INTO " + major_table_name + " (majorPrefix, major) VALUES ('Hist', 'History');");
+
+            db.close();
+
         }
     }
 
@@ -78,5 +108,33 @@ public class StudentDatabase extends SQLiteOpenHelper
         db.close();
 
         return numRows;
+    }
+
+
+    public ArrayList<Student> getAllStudentsInDB()
+    {
+        ArrayList<Student> allStudents = new ArrayList<>();
+
+        String selectString = "SELECT username, fname, lname, email, age, gpa, major FROM " + students_table_name;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(selectString, null);
+
+        while(cursor.moveToNext());
+        {
+            String  uname   = cursor.getString(0);
+            String  fname   = cursor.getString(1);
+            String  lname   = cursor.getString(2);
+            String  email   = cursor.getString(3);
+            int     age     = cursor.getInt(4);
+            float   gpa     = cursor.getFloat(5);
+            String  major   = cursor.getString(6);
+
+            Student newStudent = new Student(uname,fname,lname,email,major,age,gpa);
+            allStudents.add(newStudent);
+        }
+        db.close();
+
+        return allStudents;
     }
 }
