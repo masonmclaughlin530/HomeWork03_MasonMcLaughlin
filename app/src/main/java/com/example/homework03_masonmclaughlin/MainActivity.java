@@ -9,6 +9,7 @@ package com.example.homework03_masonmclaughlin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -29,6 +30,9 @@ public class MainActivity extends AppCompatActivity
     StudentDatabase db;
     Intent intent_j_addStudent;
     Intent intent_j_searchStudent;
+    Intent intent_j_student;
+
+    StudentCustomAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -41,14 +45,18 @@ public class MainActivity extends AppCompatActivity
         btn_j_searchStudent = findViewById(R.id.btn_v_main_studentSearch);
         lv_j_students       = findViewById(R.id.lv_v_students);
 
-        intent_j_addStudent = new Intent(MainActivity.this,);
-        intent_j_searchStudent = new Intent(MainActivity.this, );
+        intent_j_addStudent = new Intent(MainActivity.this, AddStudent.class);
+        intent_j_searchStudent = new Intent(MainActivity.this, StudentSearch.class);
 
         db = new StudentDatabase(this);
 
         //create database
         db.initAllTables();
 
+        fillListView();
+
+        btnAddStudentClickListener();
+        btnSearchStudentClickListener();
 
     }
 
@@ -76,6 +84,49 @@ public class MainActivity extends AppCompatActivity
 
     private void fillListView()
     {
-        ArrayList<Student> listOfStudents = db.
+        ArrayList<Student> listOfStudents = db.getAllStudentsInDB();
+
+        adapter = new StudentCustomAdapter(this, listOfStudents);
+
+        lv_j_students.setAdapter(adapter);
+
+        lvOnClickListener(listOfStudents);
+
+
+
     }
+
+   private void lvOnClickListener(ArrayList<Student> ls)
+   {
+       lv_j_students.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           @Override
+           public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
+           {
+                Student clickedOnStudent = ls.get(position);
+
+                SessionData.setLoggedInStudent(clickedOnStudent);
+
+                intent_j_student = new Intent(MainActivity.this, StudentDetails.class);
+                startActivity(intent_j_student);
+           }
+       });
+
+       lv_j_students.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+           @Override
+           public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l)
+           {
+                Student deleteStudent = ls.get(position);
+
+
+                db.deleteStudent(deleteStudent.getUname());
+
+                //adapter.notifyDataSetChanged();
+               adapter.notifyDataSetChanged();
+                //this has to be return true
+               return true;
+           }
+       });
+
+   }
+
 }

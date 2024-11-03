@@ -9,34 +9,49 @@
 
     <ListView
         android:id="@+id/lv_v_students"
-        android:layout_width="331dp"
-        android:layout_height="515dp"
-        tools:layout_editor_absoluteX="40dp"
-        tools:layout_editor_absoluteY="108dp" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="28dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_v_main_addStudent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/btn_v_main_addStudent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="32dp"
         android:text="Add New Student"
-        tools:layout_editor_absoluteX="221dp"
-        tools:layout_editor_absoluteY="651dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_v_main_studentSearch"
+        app:layout_constraintTop_toBottomOf="@+id/lv_v_students" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="38dp"
+        android:layout_marginBottom="30dp"
         android:text="Students"
         android:textSize="30sp"
-        tools:layout_editor_absoluteX="145dp"
-        tools:layout_editor_absoluteY="38dp" />
+        app:layout_constraintBottom_toTopOf="@+id/lv_v_students"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_v_main_studentSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
         android:text="Search Student"
-        tools:layout_editor_absoluteX="48dp"
-        tools:layout_editor_absoluteY="651dp" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/btn_v_main_addStudent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_v_main_addStudent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,14 +8,14 @@ public class Student
     private String email;
     private String major;
     private int age;
-    private float gpa;
+    private double gpa;
 
     public Student()
     {
 
     }
 
-    public Student(String u,String f, String l,String e,String m, int a, float g)
+    public Student(String u,String f, String l,String e,String m, int a, double g)
     {
         uname = u;
         fname = f;
@@ -86,12 +86,12 @@ public class Student
         this.age = age;
     }
 
-    public float getGpa()
+    public double getGpa()
     {
         return gpa;
     }
 
-    public void setGpa(float gpa)
+    public void setGpa(double gpa)
     {
         this.gpa = gpa;
     }

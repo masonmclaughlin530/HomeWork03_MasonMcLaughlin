@@ -11,23 +11,29 @@
         android:id="@+id/tv_v_cc_fname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="41dp"
+        android:layout_marginTop="23dp"
         android:text="TextView"
-        tools:layout_editor_absoluteX="41dp"
-        tools:layout_editor_absoluteY="23dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_v_cc_lname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="23dp"
         android:text="TextView"
-        tools:layout_editor_absoluteX="139dp"
-        tools:layout_editor_absoluteY="23dp" />
+        app:layout_constraintStart_toEndOf="@+id/tv_v_cc_fname"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_v_cc_uname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="22dp"
         android:text="TextView"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="64dp" />
+        app:layout_constraintStart_toStartOf="@+id/tv_v_cc_fname"
+        app:layout_constraintTop_toBottomOf="@+id/tv_v_cc_fname" />
 </androidx.constraintlayout.widget.ConstraintLayout>
